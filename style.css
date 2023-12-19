@@ -157,59 +157,54 @@ a {
   flex-direction: column;
   gap: 2rem;
 
-  padding: 5rem 10rem;
+  padding: clamp(3rem, 4.5vw, 5rem) clamp(3rem, 9vw, 10rem);
 
-  & > .btn {
+  & > button {
     align-self: flex-start;
+    background-color: #bc6c25;
+    color: var(--clr-bg-secondary);
+    font-weight: 600;
   }
 }
 
-.btn {
-  background-color: #bc6c25;
-  color: var(--clr-bg-secondary);
+.book-list {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-rows: max-content;
+  width: 100%;
 }
 
-.book-list {
-  border-spacing: 0 0.5rem;
-  width: 100%;
+.book,
+.headings {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 4fr 3fr 2fr 2fr 2fr 1fr;
+  padding: 1.5rem;
+}
 
-  & > tbody > .table-row > td:last-child {
+.book {
+  background-color: var(--clr-bg-secondary);
+  border-radius: 10px;
+
+  & p {
+    justify-self: start;
+  }
+
+  & p:last-child {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    justify-self: end;
+    gap: 0.5rem;
+  }
+
+  .status {
+    padding: 0.25rem 0.5rem;
   }
 
   & button {
     background-color: inherit;
     padding: 0;
   }
-
-  & td {
-    background-color: var(--clr-bg-secondary);
-    padding: 1.5rem;
-  }
-
-  & th {
-    padding: 0.5rem 1.5rem;
-    text-align: left;
-  }
-}
-
-.table-row {
-  & > td:is(:first-child),
-  & > th:is(:first-child) {
-    border-radius: 10px 0 0 10px;
-  }
-
-  & > td:is(:last-child),
-  & > th:is(:last-child) {
-    border-radius: 0 10px 10px 0;
-  }
-}
-
-.status {
-  background-color: #caffbf;
-  padding: 0.25rem 0.5rem;
 }
 
 @media only screen and (max-width: 750px) {
