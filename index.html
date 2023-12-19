@@ -43,7 +43,55 @@
         />
       </header>
       <main class="main-section">
-        <button class="add-book action">Add book</button>
+        <button class="btn add-book action">Add book</button>
+        <dialog>
+          <h3>Book details</h3>
+          <form action="" method="dialog">
+            <div>
+              <input
+                class="input"
+                type="text"
+                placeholder="Title"
+                id="title"
+                name="title"
+              />
+            </div>
+            <div>
+              <input
+                class="input"
+                type="text"
+                placeholder="Author"
+                id="author"
+                name="author"
+              />
+            </div>
+            <div>
+              <input
+                class="input"
+                type="text"
+                placeholder="Genre"
+                id="genre"
+                name="genre"
+              />
+            </div>
+            <div>
+              <input
+                class="input"
+                type="tel"
+                placeholder="Pages"
+                id="pages"
+                name="pages"
+              />
+            </div>
+            <div>
+              <label for="status">Have you read this book?</label>
+              <input type="checkbox" id="status" name="status" />
+            </div>
+            <div>
+              <button class="btn add-book">Add book</button>
+            </div>
+          </form>
+        </dialog>
         <div class="book-list">
           <div class="headings">
             <h3>Title</h3>

@@ -2,7 +2,9 @@
 
 const mainSection = document.querySelector('.main-section');
 const bookList = document.querySelector('.book-list');
-const statusSpan = document.querySelectorAll('.status');
+const statusEl = document.querySelectorAll('.status');
+const form = document.querySelector('form');
+const textInputs = document.querySelectorAll('.input');
 
 const checkReadingStatus = function (elementArr) {
   elementArr.forEach(element => {
@@ -14,7 +16,18 @@ const checkReadingStatus = function (elementArr) {
   return elementArr;
 };
 
-checkReadingStatus(statusSpan);
+checkReadingStatus(statusEl);
+
+textInputs.forEach(input => {
+  input.setAttribute('value', input.value);
+});
+
+form.addEventListener('keyup', function (e) {
+  const target = e.target;
+  if (!target.classList.contains('input')) return;
+
+  target.attributes.value.value = target.value;
+});
 
 mainSection.addEventListener('click', function (e) {
   const target = e.target;
