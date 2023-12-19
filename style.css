@@ -86,6 +86,10 @@ a {
   & h1 {
     font-size: clamp(1.5rem, 3vw, 1.75rem);
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .nav-items {
@@ -93,6 +97,11 @@ a {
 
   & li {
     list-style: none;
+    transition: scale 300ms ease;
+
+    &:hover {
+      scale: 1.05;
+    }
   }
 }
 
@@ -107,6 +116,14 @@ a {
 
   & h2 {
     font-size: 1rem;
+  }
+
+  & > img {
+    transition: scale 300ms ease;
+    &:hover {
+      cursor: pointer;
+      scale: 1.05;
+    }
   }
 }
 
