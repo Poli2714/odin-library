@@ -29,7 +29,7 @@ input:not([type='checkbox']) {
   display: block;
   font-family: inherit;
   font-size: 100%;
-  padding: 0.5rem 1.5rem;
+  padding: 0.75rem 3rem;
 }
 
 input {
@@ -48,11 +48,9 @@ input {
 button {
   appearance: none;
   border: none;
-  transition: transform 300ms ease;
 
   &:hover {
     cursor: pointer;
-    transform: scale(1.05);
   }
 }
 
@@ -151,6 +149,67 @@ a {
     object-fit: cover;
     width: 100%;
   }
+}
+
+.main-section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+
+  padding: 5rem 10rem;
+
+  & > .btn {
+    align-self: flex-start;
+  }
+}
+
+.btn {
+  background-color: #bc6c25;
+  color: var(--clr-bg-secondary);
+}
+
+.book-list {
+  border-spacing: 0 0.5rem;
+  width: 100%;
+
+  & > tbody > .table-row > td:last-child {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  & button {
+    background-color: inherit;
+    padding: 0;
+  }
+
+  & td {
+    background-color: var(--clr-bg-secondary);
+    padding: 1.5rem;
+  }
+
+  & th {
+    padding: 0.5rem 1.5rem;
+    text-align: left;
+  }
+}
+
+.table-row {
+  & > td:is(:first-child),
+  & > th:is(:first-child) {
+    border-radius: 10px 0 0 10px;
+  }
+
+  & > td:is(:last-child),
+  & > th:is(:last-child) {
+    border-radius: 0 10px 10px 0;
+  }
+}
+
+.status {
+  background-color: #caffbf;
+  padding: 0.25rem 0.5rem;
 }
 
 @media only screen and (max-width: 750px) {
