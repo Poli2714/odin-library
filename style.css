@@ -19,13 +19,41 @@ html {
 body {
   background-color: var(--clr-bg-primary);
   color: var(--clr-text);
+  min-height: 100vh;
 }
 
 button,
-input {
-  appearance: none;
+input:not([type='checkbox']) {
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: block;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 100%;
+  padding: 0.5rem 1.5rem;
+}
+
+input {
+  --clr-bg-input: hsla(60, 10%, 92%, 0.5);
+
+  background-color: var(--clr-bg-input);
+  border: none;
+
+  &:is([type='checkbox']) {
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 100%;
+  }
+}
+
+button {
+  appearance: none;
+  border: none;
+  transition: transform 300ms ease;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
 }
 
 a {
@@ -35,7 +63,7 @@ a {
 
 .container {
   display: grid;
-  grid-template-rows: max-content 1fr max-content;
+  grid-template-rows: max-content 400px 1fr max-content;
 }
 
 /* NAV SECTION */
@@ -96,6 +124,14 @@ a {
     background-color: var(--clr-text);
     border-radius: 5px;
     height: 15%;
+    width: 100%;
+  }
+}
+
+.hero {
+  & > img {
+    max-height: 100%;
+    object-fit: cover;
     width: 100%;
   }
 }
