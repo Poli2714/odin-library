@@ -28,6 +28,7 @@ const addBookToLibrary = function (library, bookObj) {
 };
 
 const renderBooks = function (bookList, library) {
+  bookList.textContent = '';
   library.forEach((book, i) =>
     bookList.insertAdjacentHTML(
       'beforeend',
@@ -58,6 +59,11 @@ const renderBooks = function (bookList, library) {
   </div>`
     )
   );
+};
+
+const clearInputs = function () {
+  textInputs.forEach(input => (input.value = ''));
+  statusCheckbox.checked = false;
 };
 
 const setBgColorBasedOnReadingStatus = function (elementArr) {
@@ -99,20 +105,19 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('open-modal')) {
+    clearInputs();
     dialog.showModal();
   }
 
   if (target.classList.contains('add-book')) {
-    addBookToLibrary(
-      myLibrary,
-      new Book(
-        title.value,
-        author.value,
-        genre.value,
-        +pages.value,
-        statusCheckbox.checked
-      )
+    const newBook = new Book(
+      title.value,
+      author.value,
+      genre.value,
+      +pages.value,
+      statusCheckbox.checked
     );
+    addBookToLibrary(myLibrary, newBook);
     renderBooks(bookList, myLibrary);
     setBgColorBasedOnReadingStatus(document.querySelectorAll('.status'));
   }
