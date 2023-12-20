@@ -4,11 +4,13 @@ const mainSection = document.querySelector('.main-section');
 const dialog = document.querySelector('dialog');
 const form = document.querySelector('form');
 const textInputs = document.querySelectorAll('.input');
-const title = document.querySelector('#title');
-const author = document.querySelector('#author');
-const genre = document.querySelector('#genre');
-const pages = document.querySelector('#pages');
-const statusCheckbox = document.querySelector('#status');
+const inputTitle = document.querySelector('#title');
+const inputAuthor = document.querySelector('#author');
+const inputGenre = document.querySelector('#genre');
+const inputPages = document.querySelector('#pages');
+const inputReadingStatus = document.querySelector('#status');
+const addBookBtn = document.querySelector('.add-book');
+const saveBtn = document.querySelector('.save');
 const bookList = document.querySelector('.book-list');
 const statusParagraphs = document.querySelectorAll('.status');
 
@@ -67,7 +69,7 @@ const clearInputs = function () {
   textInputs.forEach(input => {
     input.attributes.value.value = input.value = '';
   });
-  statusCheckbox.checked = false;
+  inputReadingStatus.checked = false;
 };
 
 const setBgColorBasedOnReadingStatus = function (elementArr) {
@@ -105,6 +107,23 @@ mainSection.addEventListener('click', function (e) {
       dialog.close();
   }
 
+  if (target.classList.contains('edit')) {
+    const bookElement = target.closest('.book');
+
+    addBookBtn.style.display = 'none';
+    saveBtn.style.display = 'block';
+    myLibrary.forEach((book, i) => {
+      if (+bookElement.dataset.bookindex === i) {
+        inputTitle.value = book.title;
+        inputAuthor.value = book.author;
+        inputGenre.value = book.genre;
+        inputPages.value = book.pages;
+        inputReadingStatus.checked = book.isRead;
+      }
+    });
+    dialog.showModal();
+  }
+
   if (target.classList.contains('delete')) {
     const bookElement = target.closest('.book');
     myLibrary.forEach((_, i) => {
@@ -122,11 +141,11 @@ mainSection.addEventListener('click', function (e) {
 
   if (target.classList.contains('add-book')) {
     const newBook = new Book(
-      title.value,
-      author.value,
-      genre.value,
-      +pages.value,
-      statusCheckbox.checked
+      inputTitle.value,
+      inputAuthor.value,
+      inputGenre.value,
+      +inputPages.value,
+      inputReadingStatus.checked
     );
     addBookToLibrary(myLibrary, newBook);
     renderBooks(bookList, myLibrary);
