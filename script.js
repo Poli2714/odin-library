@@ -27,7 +27,7 @@ const addBookToLibrary = function (library, bookObj) {
   return library;
 };
 
-const renderBookElements = function (bookList, library) {
+const renderBooks = function (bookList, library) {
   library.forEach((book, i) =>
     bookList.insertAdjacentHTML(
       'beforeend',
@@ -60,7 +60,7 @@ const renderBookElements = function (bookList, library) {
   );
 };
 
-const giveBgColor = function (elementArr) {
+const setBgColorBasedOnReadingStatus = function (elementArr) {
   elementArr.forEach(element => {
     element.style.backgroundColor = `${
       element.textContent === 'Read' ? '#caffbf' : '#ffadad'
@@ -113,8 +113,8 @@ mainSection.addEventListener('click', function (e) {
         statusCheckbox.checked
       )
     );
-    renderBookElements(bookList, myLibrary);
-    giveBgColor(document.querySelectorAll('.status'));
+    renderBooks(bookList, myLibrary);
+    setBgColorBasedOnReadingStatus(document.querySelectorAll('.status'));
   }
 });
 
