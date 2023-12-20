@@ -13,6 +13,7 @@ const bookList = document.querySelector('.book-list');
 const statusParagraphs = document.querySelectorAll('.status');
 
 const myLibrary = [];
+let isBookAdded = false;
 
 function Book(title, author, genre, pages, isRead) {
   this.title = title;
@@ -28,7 +29,8 @@ const addBookToLibrary = function (library, bookObj) {
 };
 
 const renderBooks = function (bookList, library) {
-  bookList.textContent = '';
+  const bookItems = document.querySelectorAll('.book');
+  bookItems.forEach(book => bookList.removeChild(book));
   library.forEach((book, i) =>
     bookList.insertAdjacentHTML(
       'beforeend',
@@ -62,7 +64,9 @@ const renderBooks = function (bookList, library) {
 };
 
 const clearInputs = function () {
-  textInputs.forEach(input => (input.value = ''));
+  textInputs.forEach(input => {
+    input.attributes.value.value = input.value = '';
+  });
   statusCheckbox.checked = false;
 };
 
@@ -89,6 +93,7 @@ form.addEventListener('keyup', function (e) {
 
 mainSection.addEventListener('click', function (e) {
   const target = e.target;
+
   if (dialog.open) {
     const dialogElementPosition = dialog.getBoundingClientRect();
     if (
@@ -101,7 +106,13 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('delete')) {
-    bookList.removeChild(target.closest('.book'));
+    const bookElement = target.closest('.book');
+    myLibrary.forEach((_, i) => {
+      if (+bookElement.dataset.bookindex === i) {
+        bookList.removeChild(bookElement);
+        myLibrary.splice(i, 1);
+      }
+    });
   }
 
   if (target.classList.contains('open-modal')) {
