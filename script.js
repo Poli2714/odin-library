@@ -57,9 +57,9 @@ const generateBook = function (library, i) {
       </button>
       <button>
         <img
-          class="delete action"
+          class="remove action"
           src="./assets/delete.svg"
-          alt="delete icon"
+          alt="remove icon"
           width="25"
         />
       </button>
@@ -67,6 +67,20 @@ const generateBook = function (library, i) {
   </div>`;
 
   return html;
+};
+
+const removeBookFromLibrary = function (bookElement, library) {
+  library.forEach((_, i) => {
+    if (+bookElement.dataset.bookindex === i) {
+      library.splice(i, 1);
+    }
+  });
+  return library;
+};
+
+const removeBookFromDOM = function (bookElement, bookList) {
+  bookList.removeChild(bookElement);
+  return bookElement;
 };
 
 const clearInputs = function () {
@@ -128,14 +142,10 @@ mainSection.addEventListener('click', function (e) {
     dialog.showModal();
   }
 
-  if (target.classList.contains('delete')) {
+  if (target.classList.contains('remove')) {
     const bookElement = target.closest('.book');
-    myLibrary.forEach((_, i) => {
-      if (+bookElement.dataset.bookindex === i) {
-        bookList.removeChild(bookElement);
-        myLibrary.splice(i, 1);
-      }
-    });
+    removeBookFromDOM(bookElement, bookList);
+    removeBookFromLibrary(bookElement, myLibrary);
   }
 
   if (target.classList.contains('open-modal')) {
