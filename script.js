@@ -25,23 +25,27 @@ function Book(title, author, genre, pages, isRead) {
   this.isRead = isRead;
 }
 
-const addBookToLibrary = function (library, bookObj) {
-  library.push(bookObj);
+const addBookToLibrary = function (library) {
+  library.push(
+    new Book(
+      inputTitle.value,
+      inputAuthor.value,
+      inputGenre.value,
+      +inputPages.value,
+      inputReadingStatus.checked
+    )
+  );
   return library;
 };
 
-const renderBooks = function (bookList, library) {
-  const bookItems = document.querySelectorAll('.book');
-  bookItems.forEach(book => bookList.removeChild(book));
-  library.forEach((book, i) =>
-    bookList.insertAdjacentHTML(
-      'beforeend',
-      `<div class="book" data-bookIndex=${i}>
-     <p>${book.title}</p>
-     <p>${book.author}</p>
-     <p>${book.genre}</p>
-     <p>${book.pages}</p>
-     <p class="status">${book.isRead ? 'Read' : 'Not read'}</p>
+const generateBook = function (library, i) {
+  const bookObj = library[i];
+  const html = `<div class="book" data-bookIndex=${i}>
+     <p>${bookObj.title}</p>
+     <p>${bookObj.author}</p>
+     <p>${bookObj.genre}</p>
+     <p>${bookObj.pages}</p>
+     <p class="status">${bookObj.isRead ? 'Read' : 'Not read'}</p>
      <p>
        <button>
          <img
@@ -60,9 +64,9 @@ const renderBooks = function (bookList, library) {
         />
       </button>
     </p>
-  </div>`
-    )
-  );
+  </div>`;
+
+  return html;
 };
 
 const clearInputs = function () {
@@ -140,15 +144,9 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('add-book')) {
-    const newBook = new Book(
-      inputTitle.value,
-      inputAuthor.value,
-      inputGenre.value,
-      +inputPages.value,
-      inputReadingStatus.checked
-    );
-    addBookToLibrary(myLibrary, newBook);
-    renderBooks(bookList, myLibrary);
+    const updatedLibrary = addBookToLibrary(myLibrary);
+    const bookHTML = generateBook(updatedLibrary, updatedLibrary.length - 1);
+    bookList.insertAdjacentHTML('beforeend', bookHTML);
     setBgColorBasedOnReadingStatus(document.querySelectorAll('.status'));
   }
 });
