@@ -98,14 +98,18 @@ a {
 }
 
 .nav-items {
-  gap: 1.5rem;
-
   & li {
     list-style: none;
-    transition: scale 300ms ease;
 
-    &:hover {
-      scale: 1.05;
+    & > a {
+      padding: 0.5rem 1rem;
+      transition: all 300ms ease-out;
+
+      &:hover {
+        background-color: #bc6c25;
+        border-radius: 5px;
+        color: var(--clr-bg-secondary);
+      }
     }
   }
 }
@@ -251,6 +255,15 @@ form {
   padding: 1rem 1.5rem;
 }
 
+.headings {
+  border-bottom: 1px solid hsl(0, 0%, 20%, 0.2);
+  margin-bottom: 0.5rem;
+
+  & > h3 {
+    font-size: 1rem;
+  }
+}
+
 .book {
   background-color: var(--clr-bg-secondary);
   border-radius: 10px;
@@ -282,7 +295,7 @@ form {
   }
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 770px) {
   .main-nav .nav-items {
     display: none;
   }

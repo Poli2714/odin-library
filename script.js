@@ -14,7 +14,29 @@ const saveBtn = document.querySelector('.save');
 const bookList = document.querySelector('.book-list');
 const statusParagraphs = document.querySelectorAll('.status');
 
-const myLibrary = [];
+const myLibrary = [
+  {
+    title: 'Les Miserables',
+    author: 'Victor Hugo',
+    genre: 'Classics',
+    pages: 1500,
+    isRead: false,
+  },
+  {
+    title: 'War and Peace',
+    author: 'Leo Tolstoy',
+    genre: 'Classics',
+    pages: 1500,
+    isRead: true,
+  },
+  {
+    title: 'Xount of Monte Cristo',
+    author: 'Alexander Dumas',
+    genre: 'Classics',
+    pages: 1200,
+    isRead: true,
+  },
+];
 let editedBookIndex;
 let isBookAdded = false;
 
@@ -105,6 +127,21 @@ const setBgColorBasedOnReadingStatus = function (elementArr) {
   return elementArr;
 };
 
+const changeReadingStatus = function (statusParagraph, library) {
+  const bookElement = statusParagraph.closest('.book');
+  library.forEach((book, i) => {
+    if (+bookElement.dataset.bookindex === i) {
+      book.isRead = !book.isRead;
+      statusParagraph.textContent = book.isRead ? 'Read' : 'Not read';
+      statusParagraph.style.backgroundColor = `${
+        statusParagraph.textContent === 'Read' ? '#caffbf' : '#ffadad'
+      }`;
+    }
+  });
+};
+
+renderAllBooks(myLibrary, bookList);
+
 textInputs.forEach(input => {
   input.setAttribute('value', input.value);
 });
@@ -184,16 +221,7 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('status')) {
-    const bookElement = target.closest('.book');
-    myLibrary.forEach((book, i) => {
-      if (+bookElement.dataset.bookindex === i) {
-        book.isRead = !book.isRead;
-        target.textContent = book.isRead ? 'Read' : 'Not read';
-        target.style.backgroundColor = `${
-          target.textContent === 'Read' ? '#caffbf' : '#ffadad'
-        }`;
-      }
-    });
+    changeReadingStatus(target, myLibrary);
   }
 });
 
