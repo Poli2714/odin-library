@@ -135,8 +135,6 @@ const areAllInputsValid = function (inputs) {
 
 const editBookDetails = function (bookElement) {
   editedBookIndex = +bookElement.dataset.bookindex;
-  addBookBtn.style.display = 'none';
-  saveBtn.style.display = 'block';
   myLibrary.forEach((book, i) => {
     if (editedBookIndex === i) {
       inputTitle.attributes.value.value = inputTitle.value = book.title;
@@ -149,7 +147,7 @@ const editBookDetails = function (bookElement) {
   dialog.showModal();
 };
 
-const saveChanges = function (myLibrary) {
+const saveChangesToLibrary = function (myLibrary) {
   const newBookObj = new Book(
     inputTitle.value,
     inputAuthor.value,
@@ -158,8 +156,7 @@ const saveChanges = function (myLibrary) {
     inputReadingStatus.checked
   );
   myLibrary.splice(editedBookIndex, 1, newBookObj);
-  renderAllBooks(myLibrary, bookList);
-  clearInputs();
+  return myLibrary;
 };
 
 const changeReadingStatus = function (statusParagraph, library) {
@@ -184,11 +181,7 @@ const closeDialogIfClickedOutside = event => {
     event.clientY > dialogElementPosition.bottom
   ) {
     dialog.close();
-    if (addBookBtn.style.display === 'none') {
-      saveBtn.style.display = 'none';
-      addBookBtn.style.display = 'block';
-      clearInputs();
-    } else isBookAdded = false;
+    isBookAdded = false;
   }
 };
 
@@ -213,7 +206,11 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('open-modal')) {
-    if (isBookAdded) clearInputs();
+    if (addBookBtn.style.display === 'none' || isBookAdded) {
+      clearInputs();
+      addBookBtn.style.display = 'block';
+      saveBtn.style.display = 'none';
+    }
     dialog.showModal();
   }
 
@@ -226,12 +223,17 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('edit')) {
+    saveBtn.style.display = 'block';
+    addBookBtn.style.display = 'none';
     const bookElement = target.closest('.book');
     editBookDetails(bookElement);
   }
 
   if (target.classList.contains('save')) {
-    if (areAllInputsValid(textInputs)) saveChanges(myLibrary);
+    if (areAllInputsValid(textInputs)) {
+      const updatedLibrary = saveChangesToLibrary(myLibrary);
+      renderAllBooks(updatedLibrary, bookList);
+    }
   }
 
   if (target.classList.contains('remove')) {
@@ -244,5 +246,3 @@ mainSection.addEventListener('click', function (e) {
     changeReadingStatus(target, myLibrary);
   }
 });
-
-//Photo by <a href="https://unsplash.com/@chuttersnap?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">CHUTTERSNAP</a> on <a href="https://unsplash.com/photos/assorted-title-book-lot-Zf64Osndqvc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
