@@ -12,7 +12,6 @@ const inputReadingStatus = document.querySelector('#status');
 const addBookBtn = document.querySelector('.add-book');
 const saveBtn = document.querySelector('.save');
 const bookList = document.querySelector('.book-list');
-const statusParagraphs = document.querySelectorAll('.status');
 
 const myLibrary = [
   {
@@ -30,7 +29,7 @@ const myLibrary = [
     isRead: true,
   },
   {
-    title: 'Xount of Monte Cristo',
+    title: 'Count of Monte Cristo',
     author: 'Alexander Dumas',
     genre: 'Classics',
     pages: 1200,
@@ -90,6 +89,16 @@ const generateBookHTML = function (bookObj, i) {
   return html;
 };
 
+const setBgColorBasedOnReadingStatus = function (elementArr) {
+  elementArr.forEach(element => {
+    element.style.backgroundColor = `${
+      element.textContent === 'Read' ? '#caffbf' : '#ffadad'
+    }`;
+  });
+
+  return elementArr;
+};
+
 const renderAllBooks = function (library, bookList) {
   const allBookElements = document.querySelectorAll('.book');
   allBookElements.forEach(bookEl => bookList.removeChild(bookEl));
@@ -110,21 +119,41 @@ const removeBookFromLibrary = function (bookElement, library) {
   return library;
 };
 
+const editBookDetails = function (bookElement) {
+  editedBookIndex = +bookElement.dataset.bookindex;
+  console.log(editedBookIndex);
+  addBookBtn.style.display = 'none';
+  saveBtn.style.display = 'block';
+  myLibrary.forEach((book, i) => {
+    if (editedBookIndex === i) {
+      inputTitle.attributes.value.value = inputTitle.value = book.title;
+      inputAuthor.attributes.value.value = inputAuthor.value = book.author;
+      inputGenre.attributes.value.value = inputGenre.value = book.genre;
+      inputPages.attributes.value.value = inputPages.value = book.pages;
+      inputReadingStatus.checked = book.isRead;
+    }
+  });
+  dialog.showModal();
+};
+
+const saveChanges = function (myLibrary) {
+  const newBookObj = new Book(
+    inputTitle.value,
+    inputAuthor.value,
+    inputGenre.value,
+    +inputPages.value,
+    inputReadingStatus.checked
+  );
+  console.log(editedBookIndex);
+  myLibrary.splice(editedBookIndex, 1, newBookObj);
+  renderAllBooks(myLibrary, bookList);
+};
+
 const clearInputs = function () {
   textInputs.forEach(input => {
     input.attributes.value.value = input.value = '';
   });
   inputReadingStatus.checked = false;
-};
-
-const setBgColorBasedOnReadingStatus = function (elementArr) {
-  elementArr.forEach(element => {
-    element.style.backgroundColor = `${
-      element.textContent === 'Read' ? '#caffbf' : '#ffadad'
-    }`;
-  });
-
-  return elementArr;
 };
 
 const changeReadingStatus = function (statusParagraph, library) {
@@ -138,6 +167,22 @@ const changeReadingStatus = function (statusParagraph, library) {
       }`;
     }
   });
+};
+
+const closeDialogIfClickedOutside = event => {
+  const dialogElementPosition = dialog.getBoundingClientRect();
+  if (
+    event.clientX < dialogElementPosition.left ||
+    event.clientX > dialogElementPosition.right ||
+    event.clientY < dialogElementPosition.top ||
+    event.clientY > dialogElementPosition.bottom
+  ) {
+    dialog.close();
+    if (addBookBtn.style.display === 'none') {
+      saveBtn.style.display = 'none';
+      addBookBtn.style.display = 'block';
+    }
+  }
 };
 
 renderAllBooks(myLibrary, bookList);
@@ -157,19 +202,7 @@ mainSection.addEventListener('click', function (e) {
   const target = e.target;
 
   if (dialog.open) {
-    const dialogElementPosition = dialog.getBoundingClientRect();
-    if (
-      e.clientX < dialogElementPosition.left ||
-      e.clientX > dialogElementPosition.right ||
-      e.clientY < dialogElementPosition.top ||
-      e.clientY > dialogElementPosition.bottom
-    ) {
-      dialog.close();
-      if (addBookBtn.style.display === 'none') {
-        saveBtn.style.display = 'none';
-        addBookBtn.style.display = 'block';
-      }
-    }
+    closeDialogIfClickedOutside(e);
   }
 
   if (target.classList.contains('open-modal')) {
@@ -185,38 +218,16 @@ mainSection.addEventListener('click', function (e) {
 
   if (target.classList.contains('edit')) {
     const bookElement = target.closest('.book');
-    editedBookIndex = +bookElement.dataset.bookindex;
-
-    addBookBtn.style.display = 'none';
-    saveBtn.style.display = 'block';
-    myLibrary.forEach((book, i) => {
-      if (editedBookIndex === i) {
-        inputTitle.value = book.title;
-        inputAuthor.value = book.author;
-        inputGenre.value = book.genre;
-        inputPages.value = book.pages;
-        inputReadingStatus.checked = book.isRead;
-      }
-    });
-    dialog.showModal();
+    editBookDetails(bookElement);
   }
 
   if (target.classList.contains('save')) {
-    const newBookObj = new Book(
-      inputTitle.value,
-      inputAuthor.value,
-      inputGenre.value,
-      +inputPages.value,
-      inputReadingStatus.checked
-    );
-    myLibrary.splice(editedBookIndex, 1, newBookObj);
-    renderAllBooks(myLibrary, bookList);
+    saveChanges(myLibrary);
   }
 
   if (target.classList.contains('remove')) {
     const bookElement = target.closest('.book');
     const updatedLibrary = removeBookFromLibrary(bookElement, myLibrary);
-
     renderAllBooks(updatedLibrary, bookList);
   }
 
