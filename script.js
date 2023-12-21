@@ -15,24 +15,24 @@ const bookList = document.querySelector('.book-list');
 
 const myLibrary = [
   {
-    title: 'Les Miserables',
+    title: 'Les Misérables',
     author: 'Victor Hugo',
     genre: 'Classics',
-    pages: 1500,
+    pages: 1456,
     isRead: false,
   },
   {
     title: 'War and Peace',
     author: 'Leo Tolstoy',
     genre: 'Classics',
-    pages: 1500,
+    pages: 1736,
     isRead: true,
   },
   {
-    title: 'Count of Monte Cristo',
-    author: 'Alexander Dumas',
+    title: 'The Count of Monte Cristo',
+    author: 'Alexandre Dumas',
     genre: 'Classics',
-    pages: 1200,
+    pages: 1240,
     isRead: true,
   },
 ];
