@@ -119,9 +119,15 @@ const removeBookFromLibrary = function (bookElement, library) {
   return library;
 };
 
+const clearInputs = function () {
+  textInputs.forEach(input => {
+    input.attributes.value.value = input.value = '';
+  });
+  inputReadingStatus.checked = false;
+};
+
 const editBookDetails = function (bookElement) {
   editedBookIndex = +bookElement.dataset.bookindex;
-  console.log(editedBookIndex);
   addBookBtn.style.display = 'none';
   saveBtn.style.display = 'block';
   myLibrary.forEach((book, i) => {
@@ -144,16 +150,9 @@ const saveChanges = function (myLibrary) {
     +inputPages.value,
     inputReadingStatus.checked
   );
-  console.log(editedBookIndex);
   myLibrary.splice(editedBookIndex, 1, newBookObj);
   renderAllBooks(myLibrary, bookList);
-};
-
-const clearInputs = function () {
-  textInputs.forEach(input => {
-    input.attributes.value.value = input.value = '';
-  });
-  inputReadingStatus.checked = false;
+  clearInputs();
 };
 
 const changeReadingStatus = function (statusParagraph, library) {
@@ -181,7 +180,8 @@ const closeDialogIfClickedOutside = event => {
     if (addBookBtn.style.display === 'none') {
       saveBtn.style.display = 'none';
       addBookBtn.style.display = 'block';
-    }
+      clearInputs();
+    } else isBookAdded = false;
   }
 };
 
@@ -206,11 +206,12 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('open-modal')) {
-    clearInputs();
+    if (isBookAdded) clearInputs();
     dialog.showModal();
   }
 
   if (target.classList.contains('add-book')) {
+    isBookAdded = true;
     const updatedLibrary = addNewBookToLibrary(myLibrary);
 
     renderAllBooks(updatedLibrary, bookList);
