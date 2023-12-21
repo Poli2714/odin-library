@@ -64,7 +64,7 @@ const generateBookHTML = function (bookObj, i) {
      <p class="title">${bookObj.title}</p>
      <p class="author">${bookObj.author}</p>
      <p class="genre">${bookObj.genre}</p>
-     <p class="pages">${bookObj.pages}</p>
+     <p class="pages">${bookObj.pages || 'n/a'}</p>
      <p class="status">${bookObj.isRead ? 'Read' : 'Not read'}</p>
      <p class="edit-remove">
        <button>
