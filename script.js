@@ -126,6 +126,13 @@ const clearInputs = function () {
   inputReadingStatus.checked = false;
 };
 
+const areAllInputsValid = function (inputs) {
+  for (const input of inputs) {
+    if (!input.validity.valid) return false;
+  }
+  return true;
+};
+
 const editBookDetails = function (bookElement) {
   editedBookIndex = +bookElement.dataset.bookindex;
   addBookBtn.style.display = 'none';
@@ -211,10 +218,11 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('add-book')) {
-    isBookAdded = true;
-    const updatedLibrary = addNewBookToLibrary(myLibrary);
-
-    renderAllBooks(updatedLibrary, bookList);
+    if (areAllInputsValid(textInputs)) {
+      isBookAdded = true;
+      const updatedLibrary = addNewBookToLibrary(myLibrary);
+      renderAllBooks(updatedLibrary, bookList);
+    }
   }
 
   if (target.classList.contains('edit')) {
@@ -223,7 +231,7 @@ mainSection.addEventListener('click', function (e) {
   }
 
   if (target.classList.contains('save')) {
-    saveChanges(myLibrary);
+    if (areAllInputsValid(textInputs)) saveChanges(myLibrary);
   }
 
   if (target.classList.contains('remove')) {
