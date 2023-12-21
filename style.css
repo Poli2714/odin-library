@@ -269,6 +269,10 @@ form {
 
   .status {
     padding: 0.25rem 0.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   & button {
