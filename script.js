@@ -61,12 +61,12 @@ const addNewBookToLibrary = function (library) {
 
 const generateBookHTML = function (bookObj, i) {
   const html = `<div class="book" data-bookIndex=${i}>
-     <p>${bookObj.title}</p>
-     <p>${bookObj.author}</p>
-     <p>${bookObj.genre}</p>
-     <p>${bookObj.pages}</p>
+     <p class="title">${bookObj.title}</p>
+     <p class="author">${bookObj.author}</p>
+     <p class="genre">${bookObj.genre}</p>
+     <p class="pages">${bookObj.pages}</p>
      <p class="status">${bookObj.isRead ? 'Read' : 'Not read'}</p>
-     <p>
+     <p class="edit-remove">
        <button>
          <img
            class="edit action"
@@ -74,16 +74,16 @@ const generateBookHTML = function (bookObj, i) {
            alt="edit icon"
            width="25"
          />
-      </button>
-      <button>
-        <img
-          class="remove action"
-          src="./assets/delete.svg"
-          alt="remove icon"
-          width="25"
-        />
-      </button>
-    </p>
+       </button>
+       <button>
+         <img
+           class="remove action"
+           src="./assets/delete.svg"
+           alt="remove icon"
+           width="25"
+         />
+       </button>
+     </p>
   </div>`;
 
   return html;
