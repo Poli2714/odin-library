@@ -59,12 +59,16 @@ const addNewBookToLibrary = function (library) {
   return library;
 };
 
+const displayBookPages = function (pageNumbers) {
+  return pageNumbers ? `${pageNumbers} pgs` : 'n/a';
+};
+
 const generateBookHTML = function (bookObj, i) {
   const html = `<div class="book" data-bookIndex=${i}>
      <p class="title">${bookObj.title}</p>
      <p class="author">${bookObj.author}</p>
      <p class="genre">${bookObj.genre}</p>
-     <p class="pages">${bookObj.pages || 'n/a'} pgs</p>
+     <p class="pages">${displayBookPages(bookObj.pages)}</p>
      <p class="status">${bookObj.isRead ? 'Read' : 'Not read'}</p>
      <p class="edit-remove">
        <button>
