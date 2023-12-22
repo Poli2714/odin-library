@@ -1,6 +1,7 @@
 :root {
   --clr-bg-primary: hsl(210, 16%, 93%); /* light silver */
   --clr-bg-secondary: hsl(100, 100%, 99%); /* white */
+  --clr-bg-input: hsl(32, 100%, 92%);
   --clr-text: hsl(0, 0%, 20%);
 }
 
@@ -32,8 +33,6 @@ input:not([type='checkbox']) {
 }
 
 input {
-  --clr-bg-input: hsl(32, 100%, 92%);
-
   background-color: var(--clr-bg-input);
   border: none;
 
@@ -246,20 +245,66 @@ form {
 
 .input {
   padding: 0.75rem 1rem;
+  transition: all 150ms ease;
   width: 100%;
 
-  &:focus,
-  &:active,
-  &:hover {
-    --clr-bg-input: hsla(32, 100%, 92%, 0.5);
-
-    outline: 1px solid var(--clr-bg-primary);
+  &:not(:focus, [value='']) {
+    background-color: hsla(32, 100%, 92%, 0.5);
+    outline: 1px solid hsl(18, 38%, 34%, 0.5);
   }
 
-  &:not(:focus, :active, [value='']) {
-    --clr-bg-input: hsla(32, 100%, 92%, 0.5);
+  &:focus,
+  &:hover {
+    background-color: hsla(32, 100%, 92%, 0.5);
+    outline: 1.5px solid hsl(18, 38%, 34%, 0.25);
+  }
 
-    outline: 1px solid hsla(0, 0%, 20%, 0.25);
+  &::placeholder {
+    color: hsl(0, 0%, 20%, 0.5);
+  }
+}
+
+.checkbox-div {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  & > input[type='checkbox'] {
+    appearance: none;
+    background-color: var(--clr-bg-input);
+    border-radius: 2px;
+    height: 20px;
+    transition: all 100ms ease;
+    width: 20px;
+
+    &:checked,
+    &:focus {
+      background-color: hsla(32, 100%, 92%, 0.5);
+      outline: 0.5px solid hsl(18, 38%, 34%, 0.5);
+    }
+
+    &:hover {
+      background-color: hsla(32, 100%, 92%, 0.5);
+      outline: 1.5px solid hsl(18, 38%, 34%, 0.25);
+      outline-offset: 1px;
+    }
+
+    &:checked + div {
+      scale: 1;
+    }
+  }
+
+  & > div {
+    background-color: #333;
+    border-radius: 1px;
+    height: 10px;
+    position: absolute;
+    bottom: 5px;
+    left: calc(194.391px + 5px);
+    scale: 0;
+    transition: scale 200ms cubic-bezier(0.53, -0.56, 0.15, 2.5);
+    width: 10px;
+    z-index: -1;
   }
 }
 
@@ -296,8 +341,14 @@ form {
     justify-self: start;
   }
 
-  .title {
-    font-weight: 600;
+  .genre {
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .pages {
+    font-size: 0.9rem;
+    font-style: italic;
   }
 
   & p:last-child {
@@ -374,6 +425,7 @@ form {
 
     .title {
       font-size: clamp(1rem, 4.5vw, 1.25rem);
+      font-weight: 600;
       grid-area: title;
     }
 
